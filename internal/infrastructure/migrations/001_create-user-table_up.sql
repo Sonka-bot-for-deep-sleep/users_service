@@ -1,0 +1,6 @@
+CREATE TABLE users (
+    ID SERIAL PRIMARY KEY,
+    Tg_ID TEXT UNIQUE,
+    Name VARCHAR(255),
+    Login VARCHAR(16)
+);
