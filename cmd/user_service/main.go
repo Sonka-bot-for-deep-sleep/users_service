@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/Sonka-bot-for-deep-sleep/common/pkg/logger"
@@ -28,11 +29,13 @@ func main() {
 	}
 
 	pgConn, err := postgres.NewWithConn(cfg.DSN)
+	defer pgConn.CloseConn(context.Background())
 	if err != nil {
 		log.Error("Failed create conn to postgres database", zap.Error(err))
 		return
 	}
 	redisConn, err := redis.NewWithConn(cfg.REDIS_URL)
+	defer redisConn.CloseConn()
 	if err != nil {
 		log.Error("Failed conn to redis", zap.Error(err))
 		return

@@ -25,6 +25,14 @@ func NewWithConn(url string) (*Redis, error) {
 	}, nil
 }
 
+func (r *Redis) CloseConn() error {
+	if err := r.client.Close(); err != nil {
+		return fmt.Errorf("CloseConn: failed close redis conn: %w", err)
+	}
+
+	return nil
+}
+
 func (r *Redis) Get(ctx context.Context, key string, out interface{}) (bool, error) {
 	receivedData, err := r.client.Get(ctx, key).Result()
 	if err != nil {

@@ -28,5 +28,9 @@ func NewWithConn(addr string) (*postgres, error) {
 }
 
 func (p *postgres) CloseConn(ctx context.Context) error {
-	return p.DB.Close(ctx)
+	if err := p.DB.Close(ctx); err != nil {
+		return fmt.Errorf("CloseConn: failed close conn postgres: %w", err)
+	}
+
+	return nil
 }
